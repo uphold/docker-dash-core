@@ -1,0 +1,17 @@
+after_script:
+  - docker images
+
+before_script:
+  - cd "$VERSION"
+  - IMAGE="dashd:${VERSION/\//-}"
+
+env:
+  - VERSION=0.12
+
+language: bash
+
+script:
+  - docker build -t "$IMAGE" .
+  - docker run "$IMAGE" --version | grep "Dash Core"
+
+services: docker
