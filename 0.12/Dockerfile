@@ -7,7 +7,7 @@ RUN adduser -S dash
 ENV BERKELEYDB_VERSION=db-4.8.30.NC
 ENV BERKELEYDB_PREFIX=/opt/${BERKELEYDB_VERSION}
 
-ENV DASH_VERSION=0.12.1.5
+ENV DASH_VERSION=0.12.2.0
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
 ENV DASH_DATA=/home/dash/.dash
 ENV PATH=${DASH_PREFIX}/bin:$PATH
@@ -36,7 +36,7 @@ RUN apk --no-cache --virtual build-dependendencies add autoconf \
   && ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${BERKELEYDB_PREFIX} \
   && make install \
   && wget -P /tmp/build/${DASH_VERSION} https://github.com/dashpay/dash/archive/v${DASH_VERSION}.tar.gz \
-  && echo "85102347f395d95cb26ba92671c8a97e775e3b4b40b161bf3fa08ca6943444cb  /tmp/build/${DASH_VERSION}/v${DASH_VERSION}.tar.gz" | sha256sum -c \
+  && echo "2e0c20c64f5ccc392e51373761f16384642d224587f10c2fdcdbb4f17e185c04  /tmp/build/${DASH_VERSION}/v${DASH_VERSION}.tar.gz" | sha256sum -c \
   && cd /tmp/build/${DASH_VERSION} \
   && tar -xzf v${DASH_VERSION}.tar.gz -C /tmp/build \
   && cd /tmp/build/dash-${DASH_VERSION} \
@@ -53,7 +53,7 @@ RUN apk --no-cache --virtual build-dependendencies add autoconf \
     --with-daemon \
   && make install \
   && cd / \
-  && strip ${DASH_PREFIX}/bin/dash-cli ${DASH_PREFIX}/bin/dashd ${DASH_PREFIX}/bin/dash-tx ${DASH_PREFIX}/lib/libbitcoinconsensus.a ${DASH_PREFIX}/lib/libbitcoinconsensus.so.0.0.0 \
+  && strip ${DASH_PREFIX}/bin/dash-cli ${DASH_PREFIX}/bin/dashd ${DASH_PREFIX}/bin/dash-tx ${DASH_PREFIX}/lib/libdashconsensus.a ${DASH_PREFIX}/lib/libdashconsensus.so.0.0.0 \
   && rm -rf /tmp/build ${BERKELEYDB_PREFIX}/docs \
   && apk --no-cache --purge del build-dependendencies \
   && apk --no-cache add boost \
