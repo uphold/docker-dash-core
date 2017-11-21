@@ -25,7 +25,7 @@ $ docker run --rm -it uphold/dash-core \
   -rpcuser=foo
 ```
 
-By default, `dashd` will run as user `dash` for security reasons and with its default data dir (`~/.dash`). If you'd like to customize where `dash-core` stores its data, you must use the `DASH_DATA` environment variable. The directory will be automatically created with the correct permissions for the `dash` user and `dash-core` is automatically configured to use it.
+By default, `dashd` will run as user `dash` for security reasons and with its default data dir (`~/.dashcore`). If you'd like to customize where `dash-core` stores its data, you must use the `DASH_DATA` environment variable. The directory will be automatically created with the correct permissions for the `dash` user and `dash-core` is automatically configured to use it.
 
 ```sh
 $ docker run --env DASH_DATA=/var/lib/dash --rm -it uphold/dash-core \
@@ -33,10 +33,10 @@ $ docker run --env DASH_DATA=/var/lib/dash --rm -it uphold/dash-core \
   -regtest=1
 ```
 
-You can also mount a directory it in a volume under `/home/dash/.dash` in case you want to access it on the host:
+You can also mount a directory it in a volume under `/home/dash/.dashcore` in case you want to access it on the host:
 
 ```sh
-$ docker run -v ${PWD}/data:/home/dash/.dash -it --rm uphold/dash-core \
+$ docker run -v ${PWD}/data:/home/dash/.dashcore -it --rm uphold/dash-core \
   -printtoconsole \
   -regtest=1
 ```
@@ -87,7 +87,7 @@ Then, inside the running `dash-server` container, locally execute the query to t
 }
 ```
 
-In the background, `dash-cli` read the information automatically from `/home/dash/.dash/regtest/.cookie`. In production, the path would not contain the regtest part.
+In the background, `dash-cli` read the information automatically from `/home/dash/.dashcore/regtest/.cookie`. In production, the path would not contain the regtest part.
 
 #### Using rpcauth for remote authentication
 

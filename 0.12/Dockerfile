@@ -9,7 +9,7 @@ ENV BERKELEYDB_PREFIX=/opt/${BERKELEYDB_VERSION}
 
 ENV DASH_VERSION=0.12.2.1
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
-ENV DASH_DATA=/home/dash/.dash
+ENV DASH_DATA=/home/dash/.dashcore
 ENV PATH=${DASH_PREFIX}/bin:$PATH
 
 RUN apk --no-cache --virtual build-dependendencies add autoconf \
@@ -63,7 +63,7 @@ RUN apk --no-cache --virtual build-dependendencies add autoconf \
     libzmq \
     su-exec
 
-VOLUME ["/home/dash/.dash"]
+VOLUME ["/home/dash/.dashcore"]
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
