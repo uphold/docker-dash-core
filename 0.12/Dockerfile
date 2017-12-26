@@ -7,7 +7,7 @@ RUN adduser -S dash
 ENV BERKELEYDB_VERSION=db-4.8.30.NC
 ENV BERKELEYDB_PREFIX=/opt/${BERKELEYDB_VERSION}
 
-ENV DASH_VERSION=0.12.2.1
+ENV DASH_VERSION=0.12.2.2
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
 ENV DASH_DATA=/home/dash/.dashcore
 ENV PATH=${DASH_PREFIX}/bin:$PATH
@@ -36,7 +36,7 @@ RUN apk --no-cache --virtual build-dependendencies add autoconf \
   && ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${BERKELEYDB_PREFIX} \
   && make install \
   && wget -P /tmp/build/${DASH_VERSION} https://github.com/dashpay/dash/archive/v${DASH_VERSION}.tar.gz \
-  && echo "ae2e96ea685d9aa3b442acff986b096659a1d2c6dfd2ef9deef84d75fe2cf2b0  /tmp/build/${DASH_VERSION}/v${DASH_VERSION}.tar.gz" | sha256sum -c \
+  && echo "fd5f1576bc8ef70e5823f665b86a334937813e300f037a03bcd127b83773d771  /tmp/build/${DASH_VERSION}/v${DASH_VERSION}.tar.gz" | sha256sum -c \
   && cd /tmp/build/${DASH_VERSION} \
   && tar -xzf v${DASH_VERSION}.tar.gz -C /tmp/build \
   && cd /tmp/build/dash-${DASH_VERSION} \

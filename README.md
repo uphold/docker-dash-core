@@ -5,7 +5,7 @@ A Dash Core docker image.
 
 ## Supported tags and respective `Dockerfile` links
 
-- `0.12.2.1`, `0.12`, `latest` ([0.12/Dockerfile](https://github.com/uphold/dash-core/blob/master/0.12/Dockerfile))
+- `0.12.2.2`, `0.12`, `latest` ([0.12/Dockerfile](https://github.com/uphold/dash-core/blob/master/0.12/Dockerfile))
 
 ## What is Dash?
 _from [dashwiki](https://github.com/dashpay/dash/wiki)_
