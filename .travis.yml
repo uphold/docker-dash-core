@@ -3,10 +3,11 @@ after_script:
 
 before_script:
   - cd "$VERSION"
-  - IMAGE="dashd:${VERSION/\//-}"
+  - IMAGE="dash-core:${VERSION/\//-}"
 
 env:
   - VERSION=0.12
+  - VERSION=0.12/alpine
 
 language: bash
 

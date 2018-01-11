@@ -1,11 +1,13 @@
 # uphold/docker-dash-core
+
 A Dash Core docker image.
 
 [![uphold/dash-core][docker-pulls-image]][docker-hub-url] [![uphold/dash-core][docker-stars-image]][docker-hub-url] [![uphold/dash-core][docker-size-image]][docker-hub-url] [![uphold/dash-core][docker-layers-image]][docker-hub-url]
 
-## Supported tags and respective `Dockerfile` links
+## Tags
 
-- `0.12.2.2`, `0.12`, `latest` ([0.12/Dockerfile](https://github.com/uphold/dash-core/blob/master/0.12/Dockerfile))
+- `0.12.2.2-alpine`, `0.12-alpine`, `alpine`, `latest` ([0.15/alpine/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/0.12/alpine/Dockerfile))
+- `0.12.2.2`, `0.12`  ([0.15/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/0.12/Dockerfile))
 
 ## What is Dash?
 _from [dashwiki](https://github.com/dashpay/dash/wiki)_
@@ -13,7 +15,9 @@ _from [dashwiki](https://github.com/dashpay/dash/wiki)_
 Dash: A Privacy-Centric Crypto-Currency https://www.dash.org
 
 ## Usage
+
 ### How to use this image
+
 This image contains the main binaries from the Dash Core project - `dashd`, `dash-cli` and `dash-tx`. It behaves like a binary, so you can pass any arguments to the image and they will be forwarded to the `dashd` binary:
 
 ```sh
@@ -148,21 +152,26 @@ Done!
 
 
 ## Image variants
+
 The `uphold/dash-core` image comes in multiple flavors:
 
 ### `uphold/dash-core:latest`
+
 Points to the latest release available of Dash Core. Occasionally pre-release versions will be included.
 
 ### `uphold/dash-core:<version>`
+
 Based on Alpine Linux with Berkeley DB 4.8 (cross-compatible build), targets a specific version branch or release of Dash Core.
 
 ## Supported Docker versions
+
 This image is officially supported on Docker version 1.12, with support for older versions provided on a best-effort basis.
 
 ## License
+
 [License information](https://github.com/dashpay/dash/blob/master/COPYING) for the software contained in this image.
 
-[License information](https://github.com/uphold/dash-core/blob/master/LICENSE) for the [uphold/dash-core](https://hub.docker.com/r/uphold/dash-core) docker project.
+[License information](https://github.com/uphold/docker-dash-core/blob/master/LICENSE) for the [uphold/dash-core][docker-hub-url] docker project.
 
 [docker-hub-url]: https://hub.docker.com/r/uphold/dash-core
 [docker-layers-image]: https://img.shields.io/imagelayers/layers/uphold/dash-core/latest.svg?style=flat-square
