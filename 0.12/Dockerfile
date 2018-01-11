@@ -1,67 +1,43 @@
-FROM alpine:3.6
+FROM debian:stable-slim
 
-MAINTAINER Pedro Branco <branco@uphold.com> (@pedrobranco)
+LABEL maintainer.0="João Fonseca (@joaopaulofonseca)" \
+  maintainer.1="Pedro Branco (@pedrobranco)" \
+  maintainer.2="Rui Marinho (@ruimarinho)"
 
-RUN adduser -S dash
+RUN useradd -r dash \
+  && apt-get update -y \
+  && apt-get install -y curl gnupg unzip \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && set -ex \
+  && for key in \
+    B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    4B88269ABD8DF332 \
+  ; do \
+    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
+    gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
+    gpg --keyserver keyserver.pgp.com --recv-keys "$key" || \
+    gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
+  done
 
-ENV BERKELEYDB_VERSION=db-4.8.30.NC
-ENV BERKELEYDB_PREFIX=/opt/${BERKELEYDB_VERSION}
+ENV GOSU_VERSION=1.10
+
+RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture) \
+  && curl -o /usr/local/bin/gosu.asc -fSL https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc \
+  && gpg --verify /usr/local/bin/gosu.asc \
+  && rm /usr/local/bin/gosu.asc \
+  && chmod +x /usr/local/bin/gosu
 
 ENV DASH_VERSION=0.12.2.2
-ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
-ENV DASH_DATA=/home/dash/.dashcore
-ENV PATH=${DASH_PREFIX}/bin:$PATH
-
-RUN apk --no-cache --virtual build-dependendencies add autoconf \
-    automake \
-    boost-dev \
-    build-base \
-    chrpath \
-    file \
-    gnupg \
-    libevent-dev \
-    libressl \
-    libressl-dev \
-    libtool \
-    linux-headers \
-    protobuf-dev \
-    zeromq-dev \
-  && mkdir -p /tmp/build \
-  && mkdir -p /tmp/build/${DASH_VERSION} \
-  && wget -O /tmp/build/${BERKELEYDB_VERSION}.tar.gz http://download.oracle.com/berkeley-db/${BERKELEYDB_VERSION}.tar.gz \
-  && tar -xzf /tmp/build/${BERKELEYDB_VERSION}.tar.gz -C /tmp/build/ \
-  && sed s/__atomic_compare_exchange/__atomic_compare_exchange_db/g -i /tmp/build/${BERKELEYDB_VERSION}/dbinc/atomic.h \
-  && mkdir -p ${BERKELEYDB_PREFIX} \
-  && cd /tmp/build/${BERKELEYDB_VERSION}/build_unix \
-  && ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${BERKELEYDB_PREFIX} \
-  && make install \
-  && wget -P /tmp/build/${DASH_VERSION} https://github.com/dashpay/dash/archive/v${DASH_VERSION}.tar.gz \
-  && echo "fd5f1576bc8ef70e5823f665b86a334937813e300f037a03bcd127b83773d771  /tmp/build/${DASH_VERSION}/v${DASH_VERSION}.tar.gz" | sha256sum -c \
-  && cd /tmp/build/${DASH_VERSION} \
-  && tar -xzf v${DASH_VERSION}.tar.gz -C /tmp/build \
-  && cd /tmp/build/dash-${DASH_VERSION} \
-  && ./autogen.sh \
-  && ./configure LDFLAGS=-L${BERKELEYDB_PREFIX}/lib/ CPPFLAGS=-I${BERKELEYDB_PREFIX}/include/ \
-    --prefix=${DASH_PREFIX} \
-    --mandir=/usr/share/man \
-    --disable-tests \
-    --disable-bench \
-    --disable-ccache \
-    --with-gui=no \
-    --with-utils \
-    --with-libs \
-    --with-daemon \
-  && make install \
-  && cd / \
-  && strip ${DASH_PREFIX}/bin/dash-cli ${DASH_PREFIX}/bin/dashd ${DASH_PREFIX}/bin/dash-tx ${DASH_PREFIX}/lib/libdashconsensus.a ${DASH_PREFIX}/lib/libdashconsensus.so.0.0.0 \
-  && rm -rf /tmp/build ${BERKELEYDB_PREFIX}/docs \
-  && apk --no-cache --purge del build-dependendencies \
-  && apk --no-cache add boost \
-    boost-program_options \
-    libevent \
-    libressl \
-    libzmq \
-    su-exec
+ENV DASH_FOLDER_VERSION=0.12.2
+ENV DASH_DATA=/home/dash/.dashcore \
+  PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
+RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
+  && gpg --verify dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
+  && tar -xzf dashcore-${DASH_VERSION}-linux64.tar.gz -C /opt \
+  && rm *.tar.gz
 
 VOLUME ["/home/dash/.dashcore"]
 
