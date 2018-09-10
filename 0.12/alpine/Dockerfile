@@ -52,9 +52,9 @@ RUN set -ex \
     gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
   done
 
-ENV DASH_VERSION=0.12.2.2
+ENV DASH_VERSION=0.12.2.3
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
-ENV DASH_SHASUM="fd5f1576bc8ef70e5823f665b86a334937813e300f037a03bcd127b83773d771  v${DASH_VERSION}.tar.gz"
+ENV DASH_SHASUM="5347351483ce39d1dd0be4d93ee19aba1a6b02bc7f90948b4eea4466ad79d1c3  v${DASH_VERSION}.tar.gz"
 
 RUN wget https://github.com/dashpay/dash/archive/v${DASH_VERSION}.tar.gz
 RUN echo "${DASH_SHASUM}" | sha256sum -c
@@ -103,7 +103,7 @@ RUN apk --no-cache add \
   su-exec
 
 ENV DASH_DATA=/home/dash/.dashcore
-ENV DASH_VERSION=0.12.2.2
+ENV DASH_VERSION=0.12.2.3
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
 ENV PATH=${DASH_PREFIX}/bin:$PATH
 
