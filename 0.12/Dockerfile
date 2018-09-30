@@ -28,15 +28,12 @@ RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/dow
   && rm /usr/local/bin/gosu.asc \
   && chmod +x /usr/local/bin/gosu
 
-ENV DASH_VERSION=0.12.2.3
-ENV DASH_FOLDER_VERSION=0.12.2
+ENV DASH_VERSION=0.12.3.3
+ENV DASH_FOLDER_VERSION=0.12.3
 ENV DASH_DATA=/home/dash/.dashcore \
   PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
-RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && gpg --verify dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && tar -xzf dashcore-${DASH_VERSION}-linux64.tar.gz -C /opt \
+RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz \
+  && tar -xzf dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz -C /opt \
   && rm *.tar.gz
 
 VOLUME ["/home/dash/.dashcore"]
