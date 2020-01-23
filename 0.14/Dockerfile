@@ -12,6 +12,7 @@ RUN useradd -r dash \
   && set -ex \
   && for key in \
     B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    8173322B6FA58B2C4AF5338C166C2AF8EC105D04 \
     4B88269ABD8DF332 \
   ; do \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
@@ -35,7 +36,7 @@ ENV DASH_DATA=/home/dash/.dashcore \
 RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
   && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz \
   && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
-  #&& gpg --verify dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
+  && gpg --verify dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
   && tar -xzf dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz -C /opt \
   && rm *.tar.gz
 
