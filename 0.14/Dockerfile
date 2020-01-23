@@ -29,7 +29,7 @@ RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/dow
   && chmod +x /usr/local/bin/gosu
 
 ENV DASH_VERSION=0.14.0.5
-ENV DASH_FOLDER_VERSION=v0.14.0.5
+ENV DASH_FOLDER_VERSION=0.14.0
 ENV DASH_DATA=/home/dash/.dashcore \
   PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
 RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
