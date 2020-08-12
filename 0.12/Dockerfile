@@ -12,6 +12,7 @@ RUN useradd -r dash \
   && set -ex \
   && for key in \
     B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    8173322B6FA58B2C4AF5338C166C2AF8EC105D04 \
     4B88269ABD8DF332 \
   ; do \
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
@@ -28,15 +29,15 @@ RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/dow
   && rm /usr/local/bin/gosu.asc \
   && chmod +x /usr/local/bin/gosu
 
-ENV DASH_VERSION=0.12.2.3
+ENV DASH_VERSION=0.12.3.4
 ENV DASH_FOLDER_VERSION=0.12.2
 ENV DASH_DATA=/home/dash/.dashcore \
   PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
 RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && gpg --verify dashcore-${DASH_VERSION}-linux64.tar.gz.asc \
-  && tar -xzf dashcore-${DASH_VERSION}-linux64.tar.gz -C /opt \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
+  && gpg --verify dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
+  && tar -xzf dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz -C /opt \
   && rm *.tar.gz
 
 VOLUME ["/home/dash/.dashcore"]
