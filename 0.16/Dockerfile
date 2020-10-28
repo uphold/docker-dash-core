@@ -45,6 +45,6 @@ COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 9998 9999 19998 19999
+EXPOSE 9998 9999 19898 19998 19999
 
 CMD ["dashd"]
