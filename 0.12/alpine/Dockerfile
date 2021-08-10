@@ -22,7 +22,7 @@ RUN make install
 RUN rm -rf ${BERKELEYDB_PREFIX}/docs
 
 # Build stage for Dash
-FROM alpine as dash
+FROM alpine:3.12.1 as dash
 
 COPY --from=berkeleydb /opt /opt
 
@@ -54,7 +54,7 @@ RUN set -ex \
 
 ENV DASH_VERSION=0.12.2.3
 ENV DASH_PREFIX=/opt/dash-${DASH_VERSION}
-ENV DASH_SHASUM="5347351483ce39d1dd0be4d93ee19aba1a6b02bc7f90948b4eea4466ad79d1c3  v${DASH_VERSION}.tar.gz"
+ENV DASH_SHASUM="7f7d4429f08c2df8819ae8273402eed67d605e183aee6b02202032b57a136c0b  v${DASH_VERSION}.tar.gz"
 
 RUN wget https://github.com/dashpay/dash/archive/v${DASH_VERSION}.tar.gz
 RUN echo "${DASH_SHASUM}" | sha256sum -c
