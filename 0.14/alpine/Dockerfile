@@ -46,10 +46,10 @@ RUN set -ex \
   && for key in \
     38EE12EB597B4FC0 \
   ; do \
-    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
+    gpg --keyserver keyserver.ubuntu.com --recv-keys "$key" || \
     gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
     gpg --keyserver keyserver.pgp.com --recv-keys "$key" || \
-    gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" ; \
+    gpg --keyserver keys.openpgp.org --recv-keys "$key" ; \
   done
 
 ENV DASH_VERSION=0.14.0.5
