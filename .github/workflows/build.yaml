@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         version:
+          - '18'
           - '0.17'
           - '0.16'
           - '0.15'
