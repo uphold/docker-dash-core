@@ -33,10 +33,10 @@ ENV DASH_FOLDER_VERSION=20.0.4
 ENV DASH_DATA=/home/dash/.dashcore \
   PATH=/opt/dashcore-${DASH_FOLDER_VERSION}/bin:$PATH
 RUN curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/SHA256SUMS.asc \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz \
-  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
-  && gpg --verify dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz.asc \
-  && tar -xzf dashcore-${DASH_VERSION}-x86_64-linux-gnu.tar.gz -C /opt \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-aarch64-linux-gnu.tar.gz \
+  && curl -SLO https://github.com/dashpay/dash/releases/download/v${DASH_VERSION}/dashcore-${DASH_VERSION}-aarch64-linux-gnu.tar.gz.asc \
+  && gpg --verify dashcore-${DASH_VERSION}-aarch64-linux-gnu.tar.gz.asc \
+  && tar -xzf dashcore-${DASH_VERSION}-aarch64-linux-gnu.tar.gz -C /opt \
   && rm *.tar.gz
 
 VOLUME ["/home/dash/.dashcore"]
