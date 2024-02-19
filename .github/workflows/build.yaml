@@ -31,6 +31,7 @@ jobs:
           function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
           DASH_CORE_VERSION=${{matrix.version}}
           LATEST_DASH_CORE_MAJOR_VERSION=$(ls  | grep 0 | sort -n | tail -n 1)
+          PLATFORMS="linux/amd64"
           PUSH=false
           REPO=uphold/dash-core
           TAGS=()
@@ -61,7 +62,13 @@ jobs:
               PUSH=true
             fi
           fi
+
+          if [[ ${DASH_CORE_VERSION} != *"alpine"* ]] && [ $(version ${DASH_CORE_VERSION}) -ge $(version "20") ]; then
+            PLATFORMS="linux/amd64,linux/arm/v7,linux/arm64"
+          fi
+
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=docker_platforms::${PLATFORMS}
           echo ::set-output name=push::${PUSH}
           echo ::set-output name=tags::${TAGS[@]}
           echo "build=true" >> $GITHUB_ENV
@@ -77,16 +84,17 @@ jobs:
         run: |
           TAGS=(${{ steps.prepare.outputs.tags }})
           echo "Build date: ${{ steps.prepare.outputs.build_date }}"
+          echo "Docker platform: ${{ steps.prepare.outputs.docker_platforms }}"
           echo "Push: ${{ steps.prepare.outputs.push }}"
           echo "Tags: ${{ steps.prepare.outputs.tags }}"
-          echo docker buildx build \
+          echo docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=${{steps.prepare.outputs.push}}" \
             --progress=plain \
             --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
             --build-arg "VCS_REF=${GITHUB_SHA::8}" \
             $(printf "%s" "${TAGS[@]/#/ --tag }" ) \
             ${{ matrix.version }}/
-          docker buildx build \
+          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=${{steps.prepare.outputs.push}}" \
             --progress=plain \
             --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
