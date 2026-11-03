@@ -6,7 +6,7 @@ A Dash Core docker image.
 
 ## Tags
 
-- `23.1.8`, `23`, `latest` ([23/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/23/Dockerfile))
+- `23.1.9`, `23`, `latest` ([23/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/23/Dockerfile))
 - `22.0.0`, `22.0`, `22` ([22/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/22/Dockerfile))
 - `21.1.1`, `21.0`, `21` ([21/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/21/Dockerfile))
 - `20.0.4`, `20.0`, `20` ([20/Dockerfile](https://github.com/uphold/docker-dash-core/blob/master/20/Dockerfile))
