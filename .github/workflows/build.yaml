@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         version:
+          - '24'
           - '23'
           - '22'
           - '21'
@@ -30,8 +31,9 @@ jobs:
         id: prepare
         run: |
           function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+          function prerelease { grep -q '^ENV DASH_VERSION=.*-rc' "$1/Dockerfile"; }
           DASH_CORE_VERSION=${{matrix.version}}
-          LATEST_DASH_CORE_MAJOR_VERSION=$(ls  | grep 0 | sort -n | tail -n 1)
+          LATEST_DASH_CORE_MAJOR_VERSION=$(for dir in $(ls -d [0-9]* | sort -V); do prerelease $dir || echo $dir; done | tail -n 1)
           PLATFORMS="linux/amd64"
           PUSH=false
           REPO=uphold/dash-core
@@ -60,7 +62,7 @@ jobs:
                 TAGS+=("$REPO:alpine")
               fi
             fi
-            if [ $GITHUB_REF == "refs/heads/master" ]; then
+            if [ $GITHUB_REF == "refs/heads/master" ] && ! prerelease ${DASH_CORE_VERSION}; then
               PUSH=true
             fi
           fi
